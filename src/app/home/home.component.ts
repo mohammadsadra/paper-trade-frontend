@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import {Order} from '../model/order.model';
 import {OrderService} from '../service/order.service';
-import {CurrencyPipe, DatePipe, NgForOf} from '@angular/common';
+import {CurrencyPipe, DatePipe, NgClass, NgForOf} from '@angular/common';
 import {RouterLink} from '@angular/router';
 import {CurrencyType} from '../enum/CurrencyType';
 import {MatIcon} from '@angular/material/icon';
@@ -19,7 +19,8 @@ import {MatAnchor} from '@angular/material/button';
     RouterLink,
     MatIcon,
     MatCard,
-    MatAnchor
+    MatAnchor,
+    NgClass
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']

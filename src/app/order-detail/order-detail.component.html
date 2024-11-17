@@ -1,25 +1,25 @@
-<div class="min-h-screen bg-gray-100 p-4 flex items-center justify-center">
-  <div class="max-w-2xl w-full bg-white p-6 rounded-lg shadow-lg">
-    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Edit Order</h2>
+<div class="min-h-screen bg-gray-900 p-4 flex items-center justify-center">
+  <div class="max-w-2xl w-full bg-gray-800 p-6 rounded-lg shadow-lg">
+    <h2 class="text-2xl font-semibold text-gray-200 mb-4">Edit Order</h2>
     <form [formGroup]="orderForm" (ngSubmit)="saveOrder()" class="space-y-4">
       <!-- Order No -->
       <div>
-        <label for="orderNo" class="block text-sm font-medium text-gray-700">Order No</label>
+        <label for="orderNo" class="block text-sm font-medium text-gray-400">Order No</label>
         <input
           type="text"
           id="orderNo"
           formControlName="orderNo"
-          class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+          class="mt-1 block w-full p-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm text-gray-200 focus:ring-indigo-500 focus:border-indigo-500"
         />
       </div>
 
       <!-- Currency Type Dropdown -->
       <div>
-        <label for="orderCurrencyType" class="block text-sm font-medium text-gray-700">Currency Type</label>
+        <label for="orderCurrencyType" class="block text-sm font-medium text-gray-400">Currency Type</label>
         <select
           id="orderCurrencyType"
           formControlName="orderCurrencyType"
-          class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+          class="mt-1 block w-full p-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm text-gray-200 focus:ring-indigo-500 focus:border-indigo-500"
         >
           <option *ngFor="let currency of currencyTypes" [value]="getCurrencyValue(currency)">
             {{ currency }}
@@ -29,22 +29,22 @@
 
       <!-- Stuffs Section -->
       <div>
-        <h3 class="text-lg font-semibold text-gray-800 mt-4">Order Stuffs</h3>
-        <div *ngFor="let stuff of stuffs.controls; let i = index" [formGroupName]="i" class="mt-4 space-y-2 p-4 border border-gray-200 rounded-md">
-          <label class="block text-sm font-medium text-gray-700">Title</label>
-          <input type="text" formControlName="title" class="block w-full p-2 border border-gray-300 rounded-md shadow-sm" />
+        <h3 class="text-lg font-semibold text-gray-200 mt-4">Order Stuffs</h3>
+        <div *ngFor="let stuff of stuffs.controls; let i = index" [formGroupName]="i" class="mt-4 space-y-2 p-4 bg-gray-700 border border-gray-600 rounded-md">
+          <label class="block text-sm font-medium text-gray-400">Title</label>
+          <input type="text" formControlName="title" class="block w-full p-2 bg-gray-800 border border-gray-600 rounded-md shadow-sm text-gray-200" />
 
-          <label class="block text-sm font-medium text-gray-700">Manufacturer Country</label>
-          <input type="text" formControlName="manufacturerCountry" class="block w-full p-2 border border-gray-300 rounded-md shadow-sm" />
+          <label class="block text-sm font-medium text-gray-400">Manufacturer Country</label>
+          <input type="text" formControlName="manufacturerCountry" class="block w-full p-2 bg-gray-800 border border-gray-600 rounded-md shadow-sm text-gray-200" />
 
-          <label class="block text-sm font-medium text-gray-700">Manufacturer Name</label>
-          <input type="text" formControlName="manufacturerName" class="block w-full p-2 border border-gray-300 rounded-md shadow-sm" />
+          <label class="block text-sm font-medium text-gray-400">Manufacturer Name</label>
+          <input type="text" formControlName="manufacturerName" class="block w-full p-2 bg-gray-800 border border-gray-600 rounded-md shadow-sm text-gray-200" />
 
-          <label class="block text-sm font-medium text-gray-700">Weight</label>
-          <input type="number" formControlName="weight" class="block w-full p-2 border border-gray-300 rounded-md shadow-sm" />
+          <label class="block text-sm font-medium text-gray-400">Weight</label>
+          <input type="number" formControlName="weight" class="block w-full p-2 bg-gray-800 border border-gray-600 rounded-md shadow-sm text-gray-200" />
 
-          <label class="block text-sm font-medium text-gray-700">Price</label>
-          <input type="number" formControlName="price" class="block w-full p-2 border border-gray-300 rounded-md shadow-sm" />
+          <label class="block text-sm font-medium text-gray-400">Price</label>
+          <input type="number" formControlName="price" class="block w-full p-2 bg-gray-800 border border-gray-600 rounded-md shadow-sm text-gray-200" />
 
           <button type="button" (click)="removeStuff(i)" class="mt-2 text-red-500">Remove Stuff</button>
         </div>
