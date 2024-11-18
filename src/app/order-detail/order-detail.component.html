@@ -1,63 +1,63 @@
-<div class="min-h-screen bg-gray-900 p-4 flex items-center justify-center">
-  <div class="max-w-2xl w-full bg-gray-800 p-6 rounded-lg shadow-lg">
-    <h2 class="text-2xl font-semibold text-gray-200 mb-4">Edit Order</h2>
-    <form [formGroup]="orderForm" (ngSubmit)="saveOrder()" class="space-y-4">
-      <!-- Order No -->
-      <div>
-        <label for="orderNo" class="block text-sm font-medium text-gray-400">Order No</label>
-        <input
-          type="text"
-          id="orderNo"
-          formControlName="orderNo"
-          class="mt-1 block w-full p-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm text-gray-200 focus:ring-indigo-500 focus:border-indigo-500"
-        />
+<div class="min-h-screen bg-gray-900 p-6" *ngIf="order">
+  <!-- Header with Back Button and Title -->
+  <div class="flex flex-row items-center justify-between mb-10">
+    <button
+      class="flex-1 flex items-center text-gray-300 text-sm hover:text-indigo-400"
+      (click)="goBack()"
+    >
+      <mat-icon>arrow_back</mat-icon>
+      <span class="ml-2">Back</span>
+    </button>
+    <h1 class="flex-1 text-xl md:text-3xl font-extrabold text-indigo-400 text-center">Order Detail</h1>
+    <div class="flex-1 text-gray-300 text-sm hover:text-indigo-400 text-end">Edit</div>
+  </div>
+
+  <div class="max-w-3xl mx-auto bg-gray-800 rounded-xl shadow-lg p-6">
+    <!-- Order Header -->
+    <div class="flex justify-between items-start mb-4">
+      <div class="flex items-center space-x-3">
+        <mat-icon class="text-gray-300">receipt_long</mat-icon>
+        <h2 class="text-xl font-semibold text-gray-200">Order #{{ order?.orderNo }}</h2>
       </div>
+      <p class="text-sm text-gray-400">{{ order?.orderDateTime | date: 'medium' }}</p>
+    </div>
 
-      <!-- Currency Type Dropdown -->
-      <div>
-        <label for="orderCurrencyType" class="block text-sm font-medium text-gray-400">Currency Type</label>
-        <select
-          id="orderCurrencyType"
-          formControlName="orderCurrencyType"
-          class="mt-1 block w-full p-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm text-gray-200 focus:ring-indigo-500 focus:border-indigo-500"
-        >
-          <option *ngFor="let currency of currencyTypes" [value]="getCurrencyValue(currency)">
-            {{ currency }}
-          </option>
-        </select>
+    <!-- Order Title and Client Info -->
+    <div class="border-b border-gray-600 pb-4 mb-4">
+      <h3 class="text-md font-semibold text-indigo-400">{{ order?.orderTitle }}</h3>
+      <div class="text-gray-300">
+        Client: <span class="font-medium">{{ order?.orderClient?.name }} {{ order?.orderClient?.family }}</span>
       </div>
+      <p class="text-sm text-gray-400 mt-1">Client ID: {{ order?.orderClientId }}</p>
+    </div>
 
-      <!-- Stuffs Section -->
-      <div>
-        <h3 class="text-lg font-semibold text-gray-200 mt-4">Order Stuffs</h3>
-        <div *ngFor="let stuff of stuffs.controls; let i = index" [formGroupName]="i" class="mt-4 space-y-2 p-4 bg-gray-700 border border-gray-600 rounded-md">
-          <label class="block text-sm font-medium text-gray-400">Title</label>
-          <input type="text" formControlName="title" class="block w-full p-2 bg-gray-800 border border-gray-600 rounded-md shadow-sm text-gray-200" />
+    <!-- Order Details -->
+    <div class="mb-4">
+      <h4 class="text-md font-semibold text-gray-200">Order Details</h4>
+      <ul class="list-inside text-gray-400 space-y-2 mt-2">
+        <li><strong>Order No:</strong> {{ order?.orderNo }}</li>
+        <li *ngIf="order?.orderCurrencyType !== undefined"><strong>Currency:</strong> {{ getCurrencyName(order?.orderCurrencyType) }}</li>
+        <li><strong>Delivery Type:</strong> {{ order?.orderDeliveryType }}</li>
+        <li><strong>Total Price:</strong> ${{ order?.totalPrice | currency }}</li>
+      </ul>
+    </div>
 
-          <label class="block text-sm font-medium text-gray-400">Manufacturer Country</label>
-          <input type="text" formControlName="manufacturerCountry" class="block w-full p-2 bg-gray-800 border border-gray-600 rounded-md shadow-sm text-gray-200" />
+    <!-- Order Items -->
+    <div class="mb-4">
+      <h4 class="text-md font-semibold text-gray-200">Items</h4>
+      <ul class="list-disc list-inside space-y-2 pl-4 text-gray-400 mt-2">
+        <li *ngFor="let item of order?.orderStuffs" class="text-sm">
+          <span class="font-medium">{{ item?.title }}</span> - {{ item?.manufacturerCountry }} / {{ item?.manufacturerName }}
+          <br />
+          <span class="text-gray-300">Weight:</span> {{ item?.weight }} kg -
+          <span class="text-gray-300">Price:</span> ${{ item?.price | currency }}
+        </li>
+      </ul>
+    </div>
 
-          <label class="block text-sm font-medium text-gray-400">Manufacturer Name</label>
-          <input type="text" formControlName="manufacturerName" class="block w-full p-2 bg-gray-800 border border-gray-600 rounded-md shadow-sm text-gray-200" />
-
-          <label class="block text-sm font-medium text-gray-400">Weight</label>
-          <input type="number" formControlName="weight" class="block w-full p-2 bg-gray-800 border border-gray-600 rounded-md shadow-sm text-gray-200" />
-
-          <label class="block text-sm font-medium text-gray-400">Price</label>
-          <input type="number" formControlName="price" class="block w-full p-2 bg-gray-800 border border-gray-600 rounded-md shadow-sm text-gray-200" />
-
-          <button type="button" (click)="removeStuff(i)" class="mt-2 text-red-500">Remove Stuff</button>
-        </div>
-        <button type="button" (click)="addStuff()" class="mt-4 py-2 px-4 bg-indigo-500 text-white rounded-md">Add Stuff</button>
-      </div>
-
-      <!-- Submit Button -->
-      <button
-        type="submit"
-        class="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-      >
-        Save Changes
-      </button>
-    </form>
+    <!-- Order Creation Date -->
+    <div class="mt-4 text-gray-400 text-sm">
+      Created on: {{ order?.createDateTime | date: 'medium' }}
+    </div>
   </div>
 </div>

@@ -1,9 +1,21 @@
 <div class="min-h-screen bg-gray-900 p-6">
   <h1 class="text-3xl font-extrabold text-center text-indigo-400 mb-10">Order Dashboard</h1>
+
+  <!-- Search Input -->
+  <div class="text-center mb-6">
+    <input
+      type="text"
+      [(ngModel)]="searchTerm"
+      (input)="filterOrders()"
+      placeholder="Search orders..."
+      class="w-full max-w-xl p-3 rounded-lg bg-gray-800 text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+    />
+  </div>
+
   <div class="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
 
     <!-- Card for Each Order -->
-    <div *ngFor="let order of orders" class="bg-gray-800 rounded-xl shadow-lg p-6">
+    <div *ngFor="let order of filteredOrders" class="bg-gray-800 rounded-xl shadow-lg p-6" (click)="onOrderClick(order)">
       <div class="p-0">
         <div class="relative z-10 flex justify-between items-start mb-4">
           <!-- Order Number -->
@@ -36,10 +48,8 @@
         <!-- Total Price with Icon -->
         <div class="relative z-10 flex justify-between items-center mt-6">
           <div class="flex items-center space-x-1">
-<!--            <mat-icon class="text-green-400">attach_money</mat-icon>-->
-            <p class="text-lg font-bold text-gray-200">${{ order.totalPrice | currency }}</p>
+            <p class="text-lg font-bold text-gray-200">{{ order.totalPrice + ' ' + getCurrencyName(order.orderCurrencyType)}}</p>
           </div>
-          <a [routerLink]="['/orders', order.id]" mat-raised-button color="primary" class="text-white">View Details</a>
         </div>
       </div>
     </div>
