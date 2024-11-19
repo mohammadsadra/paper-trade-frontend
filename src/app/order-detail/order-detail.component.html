@@ -14,21 +14,22 @@
 
   <div class="max-w-3xl mx-auto bg-gray-800 rounded-xl shadow-lg p-6">
     <!-- Order Header -->
-    <div class="flex justify-between items-start mb-4">
+    <div class="flex flex-col md:flex-row justify-between items-start mb-4">
       <div class="flex items-center space-x-3">
         <mat-icon class="text-gray-300">receipt_long</mat-icon>
-        <h2 class="text-xl font-semibold text-gray-200">Order #{{ order?.orderNo }}</h2>
+        <h2 class="text-xl font-semibold text-indigo-400">{{ order?.orderTitle }}</h2>
       </div>
-      <p class="text-sm text-gray-400">{{ order?.orderDateTime | date: 'medium' }}</p>
+      <!-- Order Date displayed below Order ID on mobile -->
+      <p class="text-sm text-gray-400 mt-2 md:mt-0 md:ml-4">{{ order?.orderDateTime | date: 'medium' }}</p>
     </div>
 
     <!-- Order Title and Client Info -->
     <div class="border-b border-gray-600 pb-4 mb-4">
-      <h3 class="text-md font-semibold text-indigo-400">{{ order?.orderTitle }}</h3>
-      <div class="text-gray-300">
-        Client: <span class="font-medium">{{ order?.orderClient?.name }} {{ order?.orderClient?.family }}</span>
+      <div class="text-gray-300 flex flex-row items-start">
+        <mat-icon class="text-gray-300">person_outline</mat-icon>
+        <span class=" ml-1 font-medium">{{ order.orderClient.name }} {{ order.orderClient.family }}</span>
       </div>
-      <p class="text-sm text-gray-400 mt-1">Client ID: {{ order?.orderClientId }}</p>
+<!--      <p class="text-sm text-gray-400 mt-1">Client ID: {{ order?.orderClientId }}</p>-->
     </div>
 
     <!-- Order Details -->
@@ -57,7 +58,7 @@
 
     <!-- Order Creation Date -->
     <div class="mt-4 text-gray-400 text-sm">
-      Created on: {{ order?.createDateTime | date: 'medium' }}
+      Created this order on: {{ order?.createDateTime | date: 'medium' }}
     </div>
   </div>
 </div>

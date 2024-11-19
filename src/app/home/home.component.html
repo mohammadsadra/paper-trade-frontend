@@ -24,13 +24,10 @@
             <h2 class="text-xl font-semibold text-indigo-400">{{ order.orderTitle }}</h2>
 <!--            <h2 class="text-xl font-semibold text-gray-200">Order #{{ order.orderNo }}</h2>-->
           </div>
-          <!-- Date -->
-<!--          <p class="text-sm text-gray-400">{{ order.orderDateTime | date:'medium' }}</p>-->
         </div>
 
         <!-- Order Title and Client Info -->
         <div class="relative z-10 border-b border-gray-600 pb-4 mb-4">
-<!--          <h3 class="text-md font-semibold text-indigo-400">{{ order.orderTitle }}</h3>-->
           <div class="text-gray-300 flex flex-row items-start">
             <mat-icon class="text-gray-300">person_outline</mat-icon>
             <span class=" ml-1 font-medium">{{ order.orderClient.name }} {{ order.orderClient.family }}</span>
