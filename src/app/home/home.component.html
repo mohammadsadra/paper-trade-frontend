@@ -21,34 +21,45 @@
           <!-- Order Number -->
           <div class="flex items-center space-x-3">
             <mat-icon class="text-gray-300">receipt_long</mat-icon>
-            <h2 class="text-xl font-semibold text-gray-200">Order #{{ order.orderNo }}</h2>
+            <h2 class="text-xl font-semibold text-indigo-400">{{ order.orderTitle }}</h2>
+<!--            <h2 class="text-xl font-semibold text-gray-200">Order #{{ order.orderNo }}</h2>-->
           </div>
           <!-- Date -->
-          <p class="text-sm text-gray-400">{{ order.orderDateTime | date:'medium' }}</p>
+<!--          <p class="text-sm text-gray-400">{{ order.orderDateTime | date:'medium' }}</p>-->
         </div>
 
         <!-- Order Title and Client Info -->
         <div class="relative z-10 border-b border-gray-600 pb-4 mb-4">
-          <h3 class="text-md font-semibold text-indigo-400">{{ order.orderTitle }}</h3>
-          <div class="text-gray-300">
-            Client: <span class="font-medium">{{ order.orderClient.name }} {{ order.orderClient.family }}</span>
+<!--          <h3 class="text-md font-semibold text-indigo-400">{{ order.orderTitle }}</h3>-->
+          <div class="text-gray-300 flex flex-row items-start">
+            <mat-icon class="text-gray-300">person_outline</mat-icon>
+            <span class=" ml-1 font-medium">{{ order.orderClient.name }} {{ order.orderClient.family }}</span>
           </div>
         </div>
 
-        <!-- Order Stuffs (Items) -->
-        <div class="relative z-10 mb-4">
-          <h4 class="text-md font-semibold text-gray-200">Items</h4>
-          <ul class="list-disc list-inside space-y-1 text-gray-400 pl-4 mt-2">
-            <li *ngFor="let stuff of order.orderStuffs.$values" class="text-sm">
-              <span class="font-medium">{{ stuff.title }}</span> - {{ stuff.manufacturerCountry }} / {{ stuff.manufacturerName }}
-            </li>
-          </ul>
-        </div>
+<!--        &lt;!&ndash; Order Stuffs (Items) &ndash;&gt;-->
+<!--        <div class="relative z-10 mb-4">-->
+<!--          <h4 class="text-md font-semibold text-gray-200">Items</h4>-->
+<!--          <ul class="list-disc list-inside space-y-1 text-gray-400 pl-4 mt-2">-->
+<!--            <li *ngFor="let stuff of order.orderStuffs.$values" class="text-sm">-->
+<!--              <span class="font-medium">{{ stuff.title }}</span> - {{ stuff.manufacturerCountry }} / {{ stuff.manufacturerName }}-->
+<!--            </li>-->
+<!--          </ul>-->
+<!--        </div>-->
 
         <!-- Total Price with Icon -->
-        <div class="relative z-10 flex justify-between items-center mt-6">
-          <div class="flex items-center space-x-1">
-            <p class="text-lg font-bold text-gray-200">{{ order.totalPrice + ' ' + getCurrencyName(order.orderCurrencyType)}}</p>
+        <div class="relative z-10 flex flex-col mt-6">
+          <div class="text-gray-300 flex flex-row items-start">
+            <mat-icon class="text-gray-300">flight</mat-icon>
+            <span class=" ml-1 font-medium">{{ getDeliveryName(order.orderDeliveryType) }}</span>
+          </div>
+          <div class="text-gray-300 flex flex-row items-start mt-2">
+            <mat-icon class="text-gray-300">date_range</mat-icon>
+            <span class=" ml-1 font-medium">{{ order.orderDateTime | date:'medium' }}</span>
+          </div>
+          <div class="text-gray-300 flex flex-row items-start mt-3">
+            <mat-icon class="text-gray-300">credit_card</mat-icon>
+            <span class="ml-1 text-lg font-bold">{{ order.totalPrice + ' ' + getCurrencyName(order.orderCurrencyType)}}</span>
           </div>
         </div>
       </div>

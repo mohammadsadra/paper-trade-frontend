@@ -8,6 +8,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatCard } from '@angular/material/card';
 import { MatAnchor } from '@angular/material/button';
 import {FormsModule} from '@angular/forms';
+import {DeliveryType} from '../enum/DeliveryType';
 
 @Component({
   selector: 'app-home',
@@ -62,5 +63,8 @@ export class HomeComponent implements OnInit {
   // Convert enum to readable string
   getCurrencyName(type: CurrencyType): string {
     return CurrencyType[type];
+  }
+  getDeliveryName(type: DeliveryType): string {
+    return DeliveryType[type];
   }
 }
