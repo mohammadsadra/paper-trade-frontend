@@ -36,8 +36,9 @@ export class HomeComponent implements OnInit {
   }
   ngOnInit() {
     this.orderService.getOrders().subscribe((orders) => {
-      this.orders = orders;
-      this.filteredOrders = orders;
+      console.log(orders.$values)
+      this.orders = orders.$values;
+      this.filteredOrders = orders.$values;
     });
   }
 
@@ -54,7 +55,7 @@ export class HomeComponent implements OnInit {
       order.orderTitle.toLowerCase().includes(term) ||
       order.orderClient.name.toLowerCase().includes(term) ||
       order.orderClient.family.toLowerCase().includes(term) ||
-      order.orderStuffs.some(stuff => stuff.title.toLowerCase().includes(term))
+      order.orderStuffs.$values.some(stuff => stuff.title.toLowerCase().includes(term))
     );
   }
 

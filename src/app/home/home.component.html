@@ -39,7 +39,7 @@
         <div class="relative z-10 mb-4">
           <h4 class="text-md font-semibold text-gray-200">Items</h4>
           <ul class="list-disc list-inside space-y-1 text-gray-400 pl-4 mt-2">
-            <li *ngFor="let stuff of order.orderStuffs" class="text-sm">
+            <li *ngFor="let stuff of order.orderStuffs.$values" class="text-sm">
               <span class="font-medium">{{ stuff.title }}</span> - {{ stuff.manufacturerCountry }} / {{ stuff.manufacturerName }}
             </li>
           </ul>

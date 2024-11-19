@@ -13,7 +13,7 @@ export class OrderService {
 
   constructor(private http: HttpClient) {}
 
-  getOrders(): Observable<Order[]> {
+  getOrders(): Observable<any> {
     return this.http.get<Order[]>(this.ordersUrl);
   }
 

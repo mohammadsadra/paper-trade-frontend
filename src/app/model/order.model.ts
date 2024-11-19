@@ -1,5 +1,4 @@
-import {CurrencyType} from '../enum/CurrencyType';
-
+import { CurrencyType } from '../enum/CurrencyType';
 
 export interface Order {
   id: string;
@@ -7,7 +6,10 @@ export interface Order {
   orderDateTime: string;
   orderNo: string;
   orderTitle: string;
-  orderStuffs: OrderStuff[];
+  orderStuffs: {
+    $id: string;
+    $values: OrderStuff[];
+  };
   orderClient: OrderClient;
   orderClientId: string;
   orderDeliveryType: number;
@@ -19,7 +21,7 @@ export interface OrderStuff {
   id: string;
   createDateTime: string;
   orderId: string;
-  stuffOrder: string;
+  stuffOrder?: { $ref: string }; // Adjusted to handle references
   title: string;
   manufacturerCountry: string;
   manufacturerName: string;
@@ -28,8 +30,9 @@ export interface OrderStuff {
 }
 
 export interface OrderClient {
-  id: string;
-  createDateTime: string;
+  $id: string;
   name: string;
   family: string;
+  id: string;
+  createDateTime: string;
 }

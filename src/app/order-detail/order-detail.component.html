@@ -46,7 +46,7 @@
     <div class="mb-4">
       <h4 class="text-md font-semibold text-gray-200">Items</h4>
       <ul class="list-disc list-inside space-y-2 pl-4 text-gray-400 mt-2">
-        <li *ngFor="let item of order?.orderStuffs" class="text-sm">
+        <li *ngFor="let item of order?.orderStuffs?.$values" class="text-sm">
           <span class="font-medium">{{ item?.title }}</span> - {{ item?.manufacturerCountry }} / {{ item?.manufacturerName }}
           <br />
           <span class="text-gray-300">Weight:</span> {{ item?.weight }} kg -
