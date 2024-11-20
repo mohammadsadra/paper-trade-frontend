@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import {OrderDetailComponent} from './order-detail/order-detail.component';
 import {NewOrderComponent} from './new-order/new-order.component';
 import {CompleteOrderComponent} from './complete-order/complete-order.component';
+import {EditClientsComponent} from './edit-clients/edit-clients.component';
 
 const authGuard: CanActivateFn = () => {
   const authService = inject(AuthService);
@@ -28,5 +29,6 @@ export const routes: Routes = [
   { path: 'orders/:id', component: OrderDetailComponent },
   { path: 'new-order', component: NewOrderComponent },
   { path: 'complete-order/:id', component: CompleteOrderComponent },
+  { path: 'edit-clients', component: EditClientsComponent },
   { path: 'login', component: LoginComponent }
 ];

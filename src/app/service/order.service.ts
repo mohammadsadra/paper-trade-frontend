@@ -57,6 +57,13 @@ export class OrderService {
     return this.http.post<OrderClient>(`${this.clientsUrl}`, client);
   }
 
+  updateClient(client: Partial<OrderClient>): Observable<OrderClient> {
+    return this.http.put<OrderClient>(`${this.clientsUrl}`, client);
+  }
+  deleteClient(id: string): Observable<OrderClient> {
+    return this.http.delete<OrderClient>(`${this.clientsUrl}/${id}`);
+  }
+
   // Create a new order
   createOrder(order: {
     orderDateTime: any;
