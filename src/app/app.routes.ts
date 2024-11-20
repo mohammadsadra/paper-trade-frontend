@@ -6,6 +6,8 @@ import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { Router } from '@angular/router';
 import {OrderDetailComponent} from './order-detail/order-detail.component';
+import {NewOrderComponent} from './new-order/new-order.component';
+import {CompleteOrderComponent} from './complete-order/complete-order.component';
 
 const authGuard: CanActivateFn = () => {
   const authService = inject(AuthService);
@@ -24,5 +26,7 @@ const authGuard: CanActivateFn = () => {
 export const routes: Routes = [
   { path: '', component: HomeComponent, canActivate: [authGuard] },
   { path: 'orders/:id', component: OrderDetailComponent },
+  { path: 'new-order', component: NewOrderComponent },
+  { path: 'complete-order', component: CompleteOrderComponent },
   { path: 'login', component: LoginComponent }
 ];

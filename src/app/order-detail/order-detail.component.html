@@ -1,35 +1,39 @@
-<div class="min-h-screen bg-gray-900 p-6" *ngIf="order">
+<div class="min-h-screen bg-gray-900 p-4 sm:p-6 overflow-hidden" *ngIf="order">
   <!-- Header with Back Button and Title -->
-  <div class="flex flex-row items-center justify-between mb-10">
+  <div class="flex items-center justify-between mb-6 sm:mb-10">
     <button
-      class="flex-1 flex items-center text-gray-300 text-sm hover:text-indigo-400"
+      class="flex items-center text-gray-300 text-sm hover:text-indigo-400 mb-2 sm:mb-0 flex-1"
       (click)="goBack()"
     >
       <mat-icon>arrow_back</mat-icon>
       <span class="ml-2">Back</span>
     </button>
-    <h1 class="flex-1 text-xl md:text-3xl font-extrabold text-indigo-400 text-center">Order Detail</h1>
-    <div class="flex-1 text-gray-300 text-sm hover:text-indigo-400 text-end">Edit</div>
+    <h1 class="text-lg sm:text-xl md:text-3xl font-extrabold text-indigo-400 text-center flex-1">
+      Order Detail
+    </h1>
+    <div class="text-gray-300 text-sm hover:text-indigo-400 text-end flex-1">Edit</div>
   </div>
 
-  <div class="max-w-3xl mx-auto bg-gray-800 rounded-xl shadow-lg p-6">
+  <div class="max-w-full sm:max-w-3xl mx-auto bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6">
     <!-- Order Header -->
-    <div class="flex flex-col md:flex-row justify-between items-start mb-4">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
       <div class="flex items-center space-x-3">
         <mat-icon class="text-gray-300">receipt_long</mat-icon>
-        <h2 class="text-xl font-semibold text-indigo-400">{{ order?.orderTitle }}</h2>
+        <h2 class="text-lg sm:text-xl font-semibold text-indigo-400">{{ order?.orderTitle }}</h2>
       </div>
-      <!-- Order Date displayed below Order ID on mobile -->
-      <p class="text-sm text-gray-400 mt-2 md:mt-0 md:ml-4">{{ order?.orderDateTime | date: 'medium' }}</p>
+      <p class="text-sm text-gray-400 mt-2 sm:mt-0 sm:ml-4">
+        {{ order?.orderDateTime | date: 'medium' }}
+      </p>
     </div>
 
     <!-- Order Title and Client Info -->
     <div class="border-b border-gray-600 pb-4 mb-4">
-      <div class="text-gray-300 flex flex-row items-start">
+      <div class="text-gray-300 flex items-start">
         <mat-icon class="text-gray-300">person_outline</mat-icon>
-        <span class=" ml-1 font-medium">{{ order.orderClient.name }} {{ order.orderClient.family }}</span>
+        <span class="ml-1 font-medium">
+          {{ order.orderClient.name }} {{ order.orderClient.family }}
+        </span>
       </div>
-<!--      <p class="text-sm text-gray-400 mt-1">Client ID: {{ order?.orderClientId }}</p>-->
     </div>
 
     <!-- Order Details -->
@@ -37,23 +41,68 @@
       <h4 class="text-md font-semibold text-gray-200">Order Details</h4>
       <ul class="list-inside text-gray-400 space-y-2 mt-2">
         <li><strong>Order No:</strong> {{ order?.orderNo }}</li>
-        <li *ngIf="order?.orderCurrencyType !== undefined"><strong>Currency:</strong> {{ getCurrencyName(order?.orderCurrencyType) }}</li>
+        <li *ngIf="order?.orderCurrencyType !== undefined">
+          <strong>Currency:</strong> {{ getCurrencyName(order?.orderCurrencyType) }}
+        </li>
         <li><strong>Delivery Type:</strong> {{ order?.orderDeliveryType }}</li>
-        <li><strong>Total Price:</strong> ${{ order?.totalPrice | currency }}</li>
+        <li>
+          <strong>Total Price:</strong> {{ order?.totalPrice + ' ' + getCurrencyName(order?.orderCurrencyType) }}
+        </li>
       </ul>
     </div>
 
     <!-- Order Items -->
     <div class="mb-4">
-      <h4 class="text-md font-semibold text-gray-200">Items</h4>
-      <ul class="list-disc list-inside space-y-2 pl-4 text-gray-400 mt-2">
-        <li *ngFor="let item of order?.orderStuffs?.$values" class="text-sm">
-          <span class="font-medium">{{ item?.title }}</span> - {{ item?.manufacturerCountry }} / {{ item?.manufacturerName }}
-          <br />
-          <span class="text-gray-300">Weight:</span> {{ item?.weight }} kg -
-          <span class="text-gray-300">Price:</span> ${{ item?.price | currency }}
-        </li>
-      </ul>
+      <h4 class="text-md font-semibold text-gray-200">Order Products</h4>
+      <div class="overflow-x-auto">
+        <div class="flex flex-nowrap space-x-4 mt-2">
+          <div
+            *ngFor="let item of order?.orderStuffs?.$values"
+            class="text-sm bg-indigo-500 p-3 rounded-xl w-64 flex-shrink-0"
+          >
+            <div class="text-white text-xl font-bold">{{ item?.title }}</div>
+            <div class="text-neutral-300">
+              {{ item?.manufacturerCountry }} / {{ item?.manufacturerName }}
+            </div>
+            <br />
+            <div class="text-gray-300">Weight: {{ item?.weight }} kg</div>
+            <div class="text-gray-300">Price: {{ item?.price + ' ' + getCurrencyName(order?.orderCurrencyType) }}</div>
+          </div><div
+            *ngFor="let item of order?.orderStuffs?.$values"
+            class="text-sm bg-indigo-500 p-3 rounded-xl w-64 flex-shrink-0"
+          >
+            <div class="text-white text-xl font-bold">{{ item?.title }}</div>
+            <div class="text-neutral-300">
+              {{ item?.manufacturerCountry }} / {{ item?.manufacturerName }}
+            </div>
+            <br />
+            <div class="text-gray-300">Weight: {{ item?.weight }} kg</div>
+            <div class="text-gray-300">Price: {{ item?.price + ' ' + getCurrencyName(order?.orderCurrencyType) }}</div>
+          </div><div
+            *ngFor="let item of order?.orderStuffs?.$values"
+            class="text-sm bg-indigo-500 p-3 rounded-xl w-64 flex-shrink-0"
+          >
+            <div class="text-white text-xl font-bold">{{ item?.title }}</div>
+            <div class="text-neutral-300">
+              {{ item?.manufacturerCountry }} / {{ item?.manufacturerName }}
+            </div>
+            <br />
+            <div class="text-gray-300">Weight: {{ item?.weight }} kg</div>
+            <div class="text-gray-300">Price: {{ item?.price + ' ' + getCurrencyName(order?.orderCurrencyType) }}</div>
+          </div><div
+            *ngFor="let item of order?.orderStuffs?.$values"
+            class="text-sm bg-indigo-500 p-3 rounded-xl w-64 flex-shrink-0"
+          >
+            <div class="text-white text-xl font-bold">{{ item?.title }}</div>
+            <div class="text-neutral-300">
+              {{ item?.manufacturerCountry }} / {{ item?.manufacturerName }}
+            </div>
+            <br />
+            <div class="text-gray-300">Weight: {{ item?.weight }} kg</div>
+            <div class="text-gray-300">Price: {{ item?.price + ' ' + getCurrencyName(order?.orderCurrencyType) }}</div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Order Creation Date -->

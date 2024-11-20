@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import {Component, OnInit, inject, ChangeDetectorRef, OnDestroy} from '@angular/core';
 import { Order } from '../model/order.model';
 import { OrderService } from '../service/order.service';
 import { CurrencyPipe, DatePipe, NgClass, NgForOf } from '@angular/common';
@@ -27,20 +27,30 @@ import {DeliveryType} from '../enum/DeliveryType';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   orders: Order[] = [];
   private orderService = inject(OrderService);
   filteredOrders: Order[] = [];
   searchTerm: string = '';
-
-  constructor(private  router: Router) {
+  isLargeScreen: boolean = true;
+  constructor(private  router: Router, private cdr: ChangeDetectorRef) {
   }
   ngOnInit() {
+    this.updateScreenSize();
+    window.addEventListener('resize', this.updateScreenSize.bind(this));
     this.orderService.getOrders().subscribe((orders) => {
-      console.log(orders.$values)
       this.orders = orders.$values;
       this.filteredOrders = orders.$values;
     });
+  }
+
+  ngOnDestroy(): void {
+    window.removeEventListener('resize', this.updateScreenSize.bind(this));
+  }
+
+  updateScreenSize(): void {
+    this.isLargeScreen = window.innerWidth >= 640; // Tailwind's 'sm' breakpoint
+    this.cdr.detectChanges();
   }
 
   // Method to handle order selection
@@ -49,6 +59,9 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/orders', order.id])
   }
 
+  onAddNewOrder(): void {
+    this.router.navigate(['/new-order']);
+  }
   filterOrders() {
     const term = this.searchTerm.toLowerCase();
     this.filteredOrders = this.orders.filter(order =>

@@ -1,5 +1,21 @@
 <div class="min-h-screen bg-gray-900 p-6">
-  <h1 class="text-3xl font-extrabold text-center text-indigo-400 mb-10">Order Dashboard</h1>
+  <!-- Title and Add New Order Button -->
+  <div class="flex items-center justify-between mb-10">
+    <!-- Add New Order Button -->
+    <button
+      (click)="onAddNewOrder()"
+      class="flex items-center justify-center px-0 sm:px-4 py-2 bg-indigo-500 text-white font-semibold rounded-lg shadow-md"
+      [ngClass]="{'w-12': !isLargeScreen, 'w-auto': isLargeScreen, 'bg-transparent': !isLargeScreen, 'text-indigo-500': !isLargeScreen}"
+    >
+      <mat-icon>add_circle_outline</mat-icon>
+      <span class=" ml-2 hidden sm:inline">Add New Order</span>
+    </button>
+
+    <!-- Title -->
+    <h1 class="text-3xl font-extrabold text-indigo-400 text-center flex-1">Order Dashboard</h1>
+
+    <div class="w-12"></div>
+  </div>
 
   <!-- Search Input -->
   <div class="text-center mb-6">
@@ -13,16 +29,14 @@
   </div>
 
   <div class="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-
     <!-- Card for Each Order -->
-    <div *ngFor="let order of filteredOrders" class="bg-gray-800 rounded-xl shadow-lg p-6" (click)="onOrderClick(order)">
+    <div *ngFor="let order of filteredOrders" class="bg-gray-800 rounded-xl shadow-lg p-6 cursor-pointer" (click)="onOrderClick(order)">
       <div class="p-0">
         <div class="relative z-10 flex justify-between items-start mb-4">
           <!-- Order Number -->
           <div class="flex items-center space-x-3">
             <mat-icon class="text-gray-300">receipt_long</mat-icon>
             <h2 class="text-xl font-semibold text-indigo-400">{{ order.orderTitle }}</h2>
-<!--            <h2 class="text-xl font-semibold text-gray-200">Order #{{ order.orderNo }}</h2>-->
           </div>
         </div>
 
@@ -30,37 +44,26 @@
         <div class="relative z-10 border-b border-gray-600 pb-4 mb-4">
           <div class="text-gray-300 flex flex-row items-start">
             <mat-icon class="text-gray-300">person_outline</mat-icon>
-            <span class=" ml-1 font-medium">{{ order.orderClient.name }} {{ order.orderClient.family }}</span>
+            <span class="ml-1 font-medium">{{ order.orderClient.name }} {{ order.orderClient.family }}</span>
           </div>
         </div>
-
-<!--        &lt;!&ndash; Order Stuffs (Items) &ndash;&gt;-->
-<!--        <div class="relative z-10 mb-4">-->
-<!--          <h4 class="text-md font-semibold text-gray-200">Items</h4>-->
-<!--          <ul class="list-disc list-inside space-y-1 text-gray-400 pl-4 mt-2">-->
-<!--            <li *ngFor="let stuff of order.orderStuffs.$values" class="text-sm">-->
-<!--              <span class="font-medium">{{ stuff.title }}</span> - {{ stuff.manufacturerCountry }} / {{ stuff.manufacturerName }}-->
-<!--            </li>-->
-<!--          </ul>-->
-<!--        </div>-->
 
         <!-- Total Price with Icon -->
         <div class="relative z-10 flex flex-col mt-6">
           <div class="text-gray-300 flex flex-row items-start">
             <mat-icon class="text-gray-300">flight</mat-icon>
-            <span class=" ml-1 font-medium">{{ getDeliveryName(order.orderDeliveryType) }}</span>
+            <span class="ml-1 font-medium">{{ getDeliveryName(order.orderDeliveryType) }}</span>
           </div>
           <div class="text-gray-300 flex flex-row items-start mt-2">
             <mat-icon class="text-gray-300">date_range</mat-icon>
-            <span class=" ml-1 font-medium">{{ order.orderDateTime | date:'medium' }}</span>
+            <span class="ml-1 font-medium">{{ order.orderDateTime | date:'medium' }}</span>
           </div>
           <div class="text-gray-300 flex flex-row items-start mt-3">
             <mat-icon class="text-gray-300">credit_card</mat-icon>
-            <span class="ml-1 text-lg font-bold">{{ order.totalPrice + ' ' + getCurrencyName(order.orderCurrencyType)}}</span>
+            <span class="ml-1 text-lg font-bold">{{ order.totalPrice + ' ' + getCurrencyName(order.orderCurrencyType) }}</span>
           </div>
         </div>
       </div>
     </div>
-
   </div>
 </div>
