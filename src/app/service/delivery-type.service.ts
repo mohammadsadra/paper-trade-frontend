@@ -33,4 +33,9 @@ export class DeliveryTypeService {
   getDeliveryTypes(): DeliveryTypeOption[] {
     return this.deliveryTypes;
   }
+
+  getDeliveryLabelById(value: number | undefined): string {
+    const deliveryType = this.deliveryTypes.find((type) => type.value === value);
+    return deliveryType ? deliveryType.label : 'Unknown Delivery Type';
+  }
 }

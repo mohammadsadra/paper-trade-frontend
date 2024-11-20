@@ -28,6 +28,7 @@ export class CompleteOrderComponent implements OnInit {
   client: OrderClient | null = null;
   deliveryTypes: DeliveryTypeOption[] = [];
   currencyTypes: CurrencyTypeOption[] = [];
+  calculatedPrice = 0
 
   constructor(
     private route: ActivatedRoute,
@@ -39,25 +40,33 @@ export class CompleteOrderComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.clientId =  this.route.snapshot.paramMap.get('id')!;
+    this.clientId = this.route.snapshot.paramMap.get('id')!;
     this.client = this.orderService.currentSelectedClient;
     this.deliveryTypes = this.deliveryTypeService.getDeliveryTypes();
     this.currencyTypes = this.currencyTypeService.getCurrencyTypes();
 
-    if (this.client == null){
-      this.orderService.getClientById(this.clientId).subscribe((res)=> {
+    if (this.client == null) {
+      this.orderService.getClientById(this.clientId).subscribe((res) => {
         this.client = res;
-      })
+      });
     }
+
     this.completeOrderForm = this.fb.group({
       id: [null],
       orderTitle: ['', Validators.required],
       orderDateTime: [new Date(), Validators.required],
       orderDeliveryType: [DeliveryType.EXW, Validators.required],
-      orderCurrencyType: [CurrencyType.USD, Validators.required], // Adjust as per CurrencyType enum
+      orderCurrencyType: [CurrencyType.USD, Validators.required],
+      orderTotalPrice: [0, [Validators.required, Validators.min(0)]],
       orderStuffs: this.fb.array([this.createOrderStuff()]),
     });
+
+    // Listen for changes in `orderStuffs` to recalculate the total price
+    this.orderStuffs.valueChanges.subscribe(() => {
+      this.updateTotalPrice();
+    });
   }
+
 
   createOrderStuff(): FormGroup {
     return this.fb.group({
@@ -86,35 +95,31 @@ export class CompleteOrderComponent implements OnInit {
   submitOrder() {
     if (this.completeOrderForm.valid) {
       const formValue = this.completeOrderForm.value;
-      const newOrder: {
-        orderDateTime: any;
-        orderDeliveryType: any;
-        totalPrice: number;
-        orderClientId: string | undefined;
-        orderCurrencyType: any;
-        orderTitle: any;
-        stuffs: any
-      } = {
+      const newOrder = {
         orderDateTime: formValue.orderDateTime,
         orderTitle: formValue.orderTitle,
         stuffs: formValue.orderStuffs,
         orderClientId: this.clientId,
         orderDeliveryType: formValue.orderDeliveryType,
         orderCurrencyType: formValue.orderCurrencyType,
-        totalPrice: this.calculateTotalPrice(formValue.orderStuffs),
+        totalPrice: formValue.orderTotalPrice, // Read from form
       };
 
       this.orderService.createOrder(newOrder).subscribe(
         (order) => {
-          // Navigate to order dashboard or order details
           this.router.navigate(['/']).then();
         },
         (error) => {
           console.error('Error creating order:', error);
-          // Handle error (e.g., show notification)
         }
       );
     }
+  }
+
+  updateTotalPrice(): void {
+    const stuffs = this.orderStuffs.value;
+    const totalPrice = stuffs.reduce((acc: number, item: OrderStuff) => acc + item.price * item.weight, 0);
+    this.completeOrderForm.patchValue({ orderTotalPrice: totalPrice }, { emitEvent: false });
   }
 
   calculateTotalPrice(stuffs: OrderStuff[]): number {

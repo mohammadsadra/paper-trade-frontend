@@ -42,11 +42,11 @@
       <ul class="list-inside text-gray-400 space-y-2 mt-2">
         <li><strong>Order No:</strong> {{ order?.orderNo }}</li>
         <li *ngIf="order?.orderCurrencyType !== undefined">
-          <strong>Currency:</strong> {{ getCurrencyName(order?.orderCurrencyType) }}
+          <strong>Currency:</strong> {{ currencyService.getCurrencyTypesById(order?.orderCurrencyType) }}
         </li>
-        <li><strong>Delivery Type:</strong> {{ order?.orderDeliveryType }}</li>
+        <li><strong>Delivery Type:</strong> {{ deliveryService.getDeliveryLabelById(order?.orderDeliveryType) }}</li>
         <li>
-          <strong>Total Price:</strong> {{ order?.totalPrice + ' ' + getCurrencyName(order?.orderCurrencyType) }}
+          <strong>Total Price:</strong> {{ order?.totalPrice + ' ' + currencyService.getCurrencyTypesById(order?.orderCurrencyType) }}
         </li>
       </ul>
     </div>
@@ -66,7 +66,7 @@
             </div>
             <br />
             <div class="text-gray-300">Weight: {{ item?.weight }} kg</div>
-            <div class="text-gray-300">Price: {{ item?.price + ' ' + getCurrencyName(order?.orderCurrencyType) }}</div>
+            <div class="text-gray-300">Price: {{ item?.price + ' ' + currencyService.getCurrencyTypesById(order?.orderCurrencyType) }}</div>
           </div>
         </div>
       </div>

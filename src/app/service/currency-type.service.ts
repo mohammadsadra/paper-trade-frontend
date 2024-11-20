@@ -54,4 +54,9 @@ export class CurrencyTypeService {
   getCurrencyTypes(): CurrencyTypeOption[] {
     return this.currencyTypes;
   }
+
+  getCurrencyTypesById(value: number | undefined): string {
+    const currencyTypes = this.currencyTypes.find((type) => type.value === value);
+    return currencyTypes ? currencyTypes.label : 'Unknown Currency Type';
+  }
 }

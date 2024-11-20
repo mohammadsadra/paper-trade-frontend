@@ -5,6 +5,8 @@ import { CurrencyType } from '../enum/CurrencyType';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatIcon} from '@angular/material/icon';
 import {CurrencyPipe, DatePipe, NgForOf, NgIf} from '@angular/common';
+import {DeliveryTypeService} from '../service/delivery-type.service';
+import {CurrencyTypeService} from '../service/currency-type.service';
 
 @Component({
   selector: 'app-order-detail',
@@ -24,6 +26,8 @@ export class OrderDetailComponent implements OnInit {
   private orderService = inject(OrderService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  protected deliveryService = inject(DeliveryTypeService);
+  protected currencyService = inject(CurrencyTypeService);
 
   orderId: string = '';
   currencyTypes = Object.keys(CurrencyType).filter(key => isNaN(Number(key))); // Get enum keys
@@ -46,9 +50,7 @@ export class OrderDetailComponent implements OnInit {
     });
   }
 
-  getCurrencyName(type: CurrencyType | undefined): string {
-    return type !== undefined ? CurrencyType[type] : 'Unknown Currency';
-  }
+
   goBack() {
     this.router.navigate(['/']);
   }
