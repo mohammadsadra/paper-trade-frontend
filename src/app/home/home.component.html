@@ -1,23 +1,25 @@
 <div class="min-h-screen bg-gray-900 p-6">
   <!-- Title and Add New Order Button -->
   <div class="flex items-center justify-between mb-10">
-    <!-- Add New Order Button -->
-    <div class="flex-1">
-      <button
-        (click)="onAddNewOrder()"
-        class="flex items-center justify-center px-0 sm:px-4 py-2 bg-indigo-500 text-white font-semibold rounded-lg shadow-md text-start"
-        [ngClass]="{'w-12': !isLargeScreen, 'w-auto': isLargeScreen, 'bg-transparent': !isLargeScreen, 'text-indigo-500': !isLargeScreen}"
-      >
-        <mat-icon>add_circle_outline</mat-icon>
-        <span class=" ml-2 hidden sm:inline">Add New Order</span>
-      </button>
+
+    <div class="text-indigo-500 flex-1 text-start cursor-pointer p-4" (click)="toggleSidebar()">
+      <mat-icon>menu</mat-icon>
     </div>
 
     <!-- Title -->
     <h1 class="text-3xl font-extrabold text-indigo-400 text-center flex-1">Orders</h1>
 
-    <div class="text-indigo-500 flex-1 text-end cursor-pointer p-4" (click)="toggleSidebar()">
-      <mat-icon>menu</mat-icon>
+
+    <!-- Add New Order Button -->
+    <div class="flex-1 flex justify-end">
+      <button
+        (click)="onAddNewOrder()"
+        class="flex items-center justify-center px-0 sm:px-4 py-2 bg-indigo-500 text-white font-semibold rounded-lg shadow-md text-end"
+        [ngClass]="{'w-12': !isLargeScreen, 'w-auto': isLargeScreen, 'bg-transparent': !isLargeScreen, 'text-indigo-500': !isLargeScreen}"
+      >
+        <mat-icon>add_circle_outline</mat-icon>
+        <span class=" ml-2 hidden sm:inline">Add New Order</span>
+      </button>
     </div>
 
     <!-- Overlay -->
