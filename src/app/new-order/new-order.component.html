@@ -10,13 +10,14 @@
       <span class="ml-2 hidden sm:inline">Back to Dashboard</span>
     </button>
 
-    <h1 class="text-3xl font-extrabold text-indigo-400 text-center flex-1">Select Order Client</h1>
+    <h1 class="text-3xl font-extrabold text-indigo-400 text-center flex-1">Select Client</h1>
 
     <div class="w-12"></div>
   </div>
 
   <!-- Open New Client Creation Form -->
   <button *ngIf="!isNewClientOpen"
+          (click)="isNewClientOpen = !isNewClientOpen"
     class="w-full flex items-center justify-center px-4 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 mb-3"
   >
     <mat-icon>person_add</mat-icon>
@@ -24,7 +25,7 @@
   </button>
 
   <!-- New Client Creation Form -->
-  <div *ngIf="isNewClientOpen" class="bg-gray-800 p-6 rounded-lg shadow-md mt-4">
+  <div *ngIf="isNewClientOpen" class="bg-gray-800 p-6 rounded-lg shadow-md mb-4">
     <h2 class="text-xl text-gray-300 mb-4">Create New Client</h2>
     <form [formGroup]="clientForm" (ngSubmit)="createClient()">
       <div class="mb-4">

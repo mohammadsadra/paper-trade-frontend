@@ -48,6 +48,9 @@ export class OrderService {
   getAllClients(): Observable<any> {
     return this.http.get(`${this.clientsUrl}`);
   }
+  getClientById(id: string): Observable<OrderClient> {
+    return this.http.get<OrderClient>(`${this.clientsUrl}/${id}`);
+  }
 
   // Create a new client
   createClient(client: Partial<OrderClient>): Observable<OrderClient> {
@@ -57,10 +60,10 @@ export class OrderService {
   // Create a new order
   createOrder(order: {
     orderDateTime: any;
-    orderDeliveryType: any;
+    orderDeliveryType: number;
     totalPrice: number;
     orderClientId: string | undefined;
-    orderCurrencyType: any;
+    orderCurrencyType: number ;
     orderTitle: any;
     orderStuffs: any
   }): Observable<any> {

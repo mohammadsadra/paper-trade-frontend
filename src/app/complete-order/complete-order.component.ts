@@ -25,6 +25,7 @@ import {CurrencyType} from '../enum/CurrencyType';
 export class CompleteOrderComponent implements OnInit {
   completeOrderForm!: FormGroup;
   clientId: string | undefined = '';
+  client: OrderClient | null = null;
   deliveryTypes: DeliveryTypeOption[] = [];
   currencyTypes: CurrencyTypeOption[] = [];
 
@@ -39,10 +40,17 @@ export class CompleteOrderComponent implements OnInit {
 
   ngOnInit(): void {
     this.clientId =  this.route.snapshot.paramMap.get('id')!;
+    this.client = this.orderService.currentSelectedClient;
     this.deliveryTypes = this.deliveryTypeService.getDeliveryTypes();
     this.currencyTypes = this.currencyTypeService.getCurrencyTypes();
 
+    if (this.client == null){
+      this.orderService.getClientById(this.clientId).subscribe((res)=> {
+        this.client = res;
+      })
+    }
     this.completeOrderForm = this.fb.group({
+      id: [null],
       orderTitle: ['', Validators.required],
       orderDateTime: [new Date(), Validators.required],
       orderDeliveryType: [DeliveryType.EXW, Validators.required],
