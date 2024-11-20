@@ -4,7 +4,11 @@ import {FormBuilder, FormGroup, Validators, FormArray, ReactiveFormsModule} from
 import {OrderService} from '../service/order.service';
 import {OrderClient, OrderStuff} from '../model/order.model';
 import {MatIcon} from '@angular/material/icon';
-import {NgForOf} from '@angular/common';
+import {NgForOf, NgIf} from '@angular/common';
+import {DeliveryTypeOption, DeliveryTypeService} from '../service/delivery-type.service';
+import {CurrencyTypeOption, CurrencyTypeService} from '../service/currency-type.service';
+import {DeliveryType} from '../enum/DeliveryType';
+import {CurrencyType} from '../enum/CurrencyType';
 
 @Component({
   selector: 'app-complete-order',
@@ -13,30 +17,37 @@ import {NgForOf} from '@angular/common';
   imports: [
     MatIcon,
     ReactiveFormsModule,
-    NgForOf
+    NgForOf,
+    NgIf
   ],
   standalone: true
 })
 export class CompleteOrderComponent implements OnInit {
   completeOrderForm!: FormGroup;
-  clientId: string = '';
+  clientId: string | undefined = '';
+  deliveryTypes: DeliveryTypeOption[] = [];
+  currencyTypes: CurrencyTypeOption[] = [];
 
   constructor(
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private orderService: OrderService,
-    protected router: Router
+    protected router: Router,
+    private deliveryTypeService: DeliveryTypeService,
+    private currencyTypeService: CurrencyTypeService
   ) {}
 
   ngOnInit(): void {
-    this.clientId = this.route.snapshot.paramMap.get('clientId') || '';
+    this.clientId =  this.orderService.currentSelectedClient?.$id;
+    this.deliveryTypes = this.deliveryTypeService.getDeliveryTypes();
+    this.currencyTypes = this.currencyTypeService.getCurrencyTypes();
+
     this.completeOrderForm = this.fb.group({
       orderTitle: ['', Validators.required],
       orderDateTime: [new Date(), Validators.required],
-      orderDeliveryType: [1, Validators.required],
-      orderCurrencyType: ['USD', Validators.required], // Adjust as per CurrencyType enum
+      orderDeliveryType: [DeliveryType.EXW, Validators.required],
+      orderCurrencyType: [CurrencyType.USD, Validators.required], // Adjust as per CurrencyType enum
       orderStuffs: this.fb.array([this.createOrderStuff()]),
-      // Add other order fields as necessary
     });
   }
 
@@ -70,26 +81,15 @@ export class CompleteOrderComponent implements OnInit {
       const newOrder: {
         orderDateTime: any;
         orderDeliveryType: any;
-        orderNo: string;
         totalPrice: number;
-        orderClient: OrderClient;
-        orderClientId: string;
+        orderClientId: string | undefined;
         orderCurrencyType: any;
-        id: string;
         orderTitle: any;
-        orderStuffs: { $values: any; $id: string };
-        createDateTime: string
+        orderStuffs: any
       } = {
-        id: '', // Will be set by backend
-        createDateTime: new Date().toISOString(),
         orderDateTime: formValue.orderDateTime,
-        orderNo: '', // Can be generated or handled by backend
         orderTitle: formValue.orderTitle,
-        orderStuffs: {
-          $id: '', // Reference ID as per your backend
-          $values: formValue.orderStuffs,
-        },
-        orderClient: { id: this.clientId } as OrderClient, // Simplified
+        orderStuffs: formValue.orderStuffs,
         orderClientId: this.clientId,
         orderDeliveryType: formValue.orderDeliveryType,
         orderCurrencyType: formValue.orderCurrencyType,
@@ -99,7 +99,7 @@ export class CompleteOrderComponent implements OnInit {
       this.orderService.createOrder(newOrder).subscribe(
         (order) => {
           // Navigate to order dashboard or order details
-          this.router.navigate(['/order-dashboard']);
+          this.router.navigate(['/order-dashboard']).then();
         },
         (error) => {
           console.error('Error creating order:', error);
@@ -112,4 +112,6 @@ export class CompleteOrderComponent implements OnInit {
   calculateTotalPrice(stuffs: OrderStuff[]): number {
     return stuffs.reduce((acc, item) => acc + item.price * item.weight, 0);
   }
+
+
 }

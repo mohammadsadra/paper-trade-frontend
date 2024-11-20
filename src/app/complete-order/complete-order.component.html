@@ -51,11 +51,11 @@
           class="w-full p-3 rounded-lg bg-gray-700 text-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           required
         >
-          <option value="1">Standard</option>
-          <option value="2">Express</option>
-          <option value="3">Overnight</option>
-          <!-- Add more options as per your DeliveryType enumeration -->
+          <option *ngFor="let type of deliveryTypes" [value]="type.value">
+            {{ type.label }}
+          </option>
         </select>
+
       </div>
 
       <!-- Order Currency Type -->
@@ -67,11 +67,13 @@
           class="w-full p-3 rounded-lg bg-gray-700 text-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           required
         >
-          <option value="USD">USD</option>
-          <option value="EUR">EUR</option>
-          <option value="GBP">GBP</option>
-          <!-- Add more options as per your CurrencyType enumeration -->
+          <option *ngFor="let currency of currencyTypes" [value]="currency.value">
+            {{ currency.label }}
+          </option>
         </select>
+        <div *ngIf="completeOrderForm.get('orderCurrencyType')!.invalid" class="text-red-500 mt-1">
+          Currency Type is required.
+        </div>
       </div>
 
       <!-- Order Stuffs -->
