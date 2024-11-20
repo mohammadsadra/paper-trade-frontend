@@ -2,19 +2,77 @@
   <!-- Title and Add New Order Button -->
   <div class="flex items-center justify-between mb-10">
     <!-- Add New Order Button -->
-    <button
-      (click)="onAddNewOrder()"
-      class="flex items-center justify-center px-0 sm:px-4 py-2 bg-indigo-500 text-white font-semibold rounded-lg shadow-md"
-      [ngClass]="{'w-12': !isLargeScreen, 'w-auto': isLargeScreen, 'bg-transparent': !isLargeScreen, 'text-indigo-500': !isLargeScreen}"
-    >
-      <mat-icon>add_circle_outline</mat-icon>
-      <span class=" ml-2 hidden sm:inline">Add New Order</span>
-    </button>
+    <div class="flex-1">
+      <button
+        (click)="onAddNewOrder()"
+        class="flex items-center justify-center px-0 sm:px-4 py-2 bg-indigo-500 text-white font-semibold rounded-lg shadow-md text-start"
+        [ngClass]="{'w-12': !isLargeScreen, 'w-auto': isLargeScreen, 'bg-transparent': !isLargeScreen, 'text-indigo-500': !isLargeScreen}"
+      >
+        <mat-icon>add_circle_outline</mat-icon>
+        <span class=" ml-2 hidden sm:inline">Add New Order</span>
+      </button>
+    </div>
 
     <!-- Title -->
-    <h1 class="text-3xl font-extrabold text-indigo-400 text-center flex-1">Order Dashboard</h1>
+    <h1 class="text-3xl font-extrabold text-indigo-400 text-center flex-1">Orders</h1>
 
-    <div class="w-12"></div>
+    <div class="text-indigo-500 flex-1 text-end cursor-pointer p-4" (click)="toggleSidebar()">
+      <mat-icon>menu</mat-icon>
+    </div>
+
+    <!-- Overlay -->
+    <div
+      *ngIf="isSidebarOpen"
+      class="fixed inset-0 bg-black bg-opacity-50 z-40"
+      (click)="closeSidebar()"
+    ></div>
+
+    <!-- Sidebar -->
+    <div
+      class="fixed top-0 left-0 h-full w-64 bg-gray-800 shadow-lg z-50 transform transition-transform duration-300 ease-in-out"
+      [ngClass]="{
+      '-translate-x-full': !isSidebarOpen,
+      'translate-x-0': isSidebarOpen
+    }"
+    >
+      <!-- Close Button -->
+      <div class="flex justify-end p-4">
+        <button (click)="closeSidebar()" aria-label="Close sidebar menu">
+          <mat-icon class="text-white">close</mat-icon>
+        </button>
+      </div>
+
+      <!-- Sidebar Content -->
+      <nav class="p-4">
+        <ul>
+          <li class="mb-4">
+            <a
+              (click)="router.navigate(['/'])"
+              class="text-white hover:underline cursor-pointer"
+            >
+              Home
+            </a>
+          </li>
+          <li class="mb-4">
+            <a
+              (click)="onAddNewOrder()"
+              class="text-white hover:underline cursor-pointer"
+            >
+              New Order
+            </a>
+          </li>
+          <li class="mb-4">
+            <a
+              (click)="router.navigate(['/clients'])"
+              class="text-white hover:underline cursor-pointer"
+            >
+              Clients
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
   </div>
 
   <!-- Search Input -->

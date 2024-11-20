@@ -93,11 +93,11 @@ export class CompleteOrderComponent implements OnInit {
         orderClientId: string | undefined;
         orderCurrencyType: any;
         orderTitle: any;
-        orderStuffs: any
+        stuffs: any
       } = {
         orderDateTime: formValue.orderDateTime,
         orderTitle: formValue.orderTitle,
-        orderStuffs: formValue.orderStuffs,
+        stuffs: formValue.orderStuffs,
         orderClientId: this.clientId,
         orderDeliveryType: formValue.orderDeliveryType,
         orderCurrencyType: formValue.orderCurrencyType,
@@ -107,7 +107,7 @@ export class CompleteOrderComponent implements OnInit {
       this.orderService.createOrder(newOrder).subscribe(
         (order) => {
           // Navigate to order dashboard or order details
-          this.router.navigate(['/order-dashboard']).then();
+          this.router.navigate(['/']).then();
         },
         (error) => {
           console.error('Error creating order:', error);

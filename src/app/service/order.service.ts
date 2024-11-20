@@ -60,12 +60,12 @@ export class OrderService {
   // Create a new order
   createOrder(order: {
     orderDateTime: any;
-    orderDeliveryType: number;
+    orderDeliveryType: any;
     totalPrice: number;
     orderClientId: string | undefined;
-    orderCurrencyType: number ;
+    orderCurrencyType: any;
     orderTitle: any;
-    orderStuffs: any
+    stuffs: any
   }): Observable<any> {
     return this.http.post<Order>(`${this.ordersUrl}`, order);
   }

@@ -1,7 +1,7 @@
-import {Component, OnInit, inject, ChangeDetectorRef, OnDestroy} from '@angular/core';
+import {Component, OnInit, inject, ChangeDetectorRef, OnDestroy, HostListener} from '@angular/core';
 import { Order } from '../model/order.model';
 import { OrderService } from '../service/order.service';
-import { CurrencyPipe, DatePipe, NgClass, NgForOf } from '@angular/common';
+import {CurrencyPipe, DatePipe, NgClass, NgForOf, NgIf} from '@angular/common';
 import {Router, RouterLink} from '@angular/router';
 import { CurrencyType } from '../enum/CurrencyType';
 import { MatIcon } from '@angular/material/icon';
@@ -22,7 +22,8 @@ import {DeliveryType} from '../enum/DeliveryType';
     MatCard,
     MatAnchor,
     NgClass,
-    FormsModule
+    FormsModule,
+    NgIf
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
@@ -33,7 +34,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   filteredOrders: Order[] = [];
   searchTerm: string = '';
   isLargeScreen: boolean = true;
-  constructor(private  router: Router, private cdr: ChangeDetectorRef) {
+  isSidebarOpen = false;
+  constructor(protected router: Router, private cdr: ChangeDetectorRef) {
   }
   ngOnInit() {
     this.updateScreenSize();
@@ -48,6 +50,37 @@ export class HomeComponent implements OnInit, OnDestroy {
     window.removeEventListener('resize', this.updateScreenSize.bind(this));
   }
 
+  toggleSidebar(): void {
+    this.isSidebarOpen = !this.isSidebarOpen;
+    this.manageBodyOverflow();
+  }
+
+  closeSidebar(): void {
+    this.isSidebarOpen = false;
+    this.manageBodyOverflow();
+  }
+
+  // Optional: Handle window resize to update isLargeScreen
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event): void {
+    this.isLargeScreen = (event.target as Window).innerWidth >= 640;
+  }
+
+  @HostListener('document:keydown.escape', ['$event'])
+  onEscape(event: KeyboardEvent) {
+    if (this.isSidebarOpen) {
+      this.closeSidebar();
+    }
+  }
+
+  private manageBodyOverflow(): void {
+    if (this.isSidebarOpen) {
+      document.body.classList.add('overflow-hidden');
+    } else {
+      document.body.classList.remove('overflow-hidden');
+    }
+  }
+
   updateScreenSize(): void {
     this.isLargeScreen = window.innerWidth >= 640; // Tailwind's 'sm' breakpoint
     this.cdr.detectChanges();
@@ -60,7 +93,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   onAddNewOrder(): void {
-    this.router.navigate(['/new-order']);
+    this.closeSidebar()
+    this.router.navigate(['/new-order']).then();
   }
   filterOrders() {
     const term = this.searchTerm.toLowerCase();
