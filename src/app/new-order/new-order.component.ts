@@ -99,7 +99,7 @@ export class NewOrderComponent implements OnInit {
    */
   selectClient(client: OrderClient): void {
     this.orderService.setSelectedClient(client);
-    this.router.navigate(['/complete-order']).then();
+    this.router.navigate(['/complete-order', client.id]).then();
   }
 
   /**
@@ -120,7 +120,7 @@ export class NewOrderComponent implements OnInit {
           this.allClients.push(createdClient);
           this.filteredClients = this.allClients;
           this.orderService.setSelectedClient(createdClient);
-          this.router.navigate(['/complete-order']).then();
+          this.router.navigate(['/complete-order', createdClient.id]).then();
         },
         (error) => {
           console.error('Error creating client:', error);

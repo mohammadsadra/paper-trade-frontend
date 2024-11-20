@@ -38,7 +38,7 @@ export class CompleteOrderComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.clientId =  this.orderService.currentSelectedClient?.$id;
+    this.clientId =  this.route.snapshot.paramMap.get('id')!;
     this.deliveryTypes = this.deliveryTypeService.getDeliveryTypes();
     this.currencyTypes = this.currencyTypeService.getCurrencyTypes();
 
