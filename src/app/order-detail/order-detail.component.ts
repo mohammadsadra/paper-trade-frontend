@@ -4,7 +4,7 @@ import { Order } from '../model/order.model';
 import { CurrencyType } from '../enum/CurrencyType';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatIcon} from '@angular/material/icon';
-import {CurrencyPipe, DatePipe, NgForOf, NgIf} from '@angular/common';
+import {CurrencyPipe, DatePipe, DecimalPipe, NgForOf, NgIf} from '@angular/common';
 import {DeliveryTypeService} from '../service/delivery-type.service';
 import {CurrencyTypeService} from '../service/currency-type.service';
 
@@ -17,7 +17,8 @@ import {CurrencyTypeService} from '../service/currency-type.service';
     DatePipe,
     CurrencyPipe,
     NgIf,
-    NgForOf
+    NgForOf,
+    DecimalPipe
   ],
   styleUrls: ['./order-detail.component.css']
 })

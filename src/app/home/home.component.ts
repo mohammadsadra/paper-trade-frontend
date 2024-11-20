@@ -1,7 +1,7 @@
 import {Component, OnInit, inject, ChangeDetectorRef, OnDestroy, HostListener} from '@angular/core';
 import { Order } from '../model/order.model';
 import { OrderService } from '../service/order.service';
-import {CurrencyPipe, DatePipe, NgClass, NgForOf, NgIf} from '@angular/common';
+import {CurrencyPipe, DatePipe, DecimalPipe, NgClass, NgForOf, NgIf} from '@angular/common';
 import {Router, RouterLink} from '@angular/router';
 import { CurrencyType } from '../enum/CurrencyType';
 import { MatIcon } from '@angular/material/icon';
@@ -23,7 +23,8 @@ import {DeliveryType} from '../enum/DeliveryType';
     MatAnchor,
     NgClass,
     FormsModule,
-    NgIf
+    NgIf,
+    DecimalPipe
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']

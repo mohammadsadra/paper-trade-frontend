@@ -120,7 +120,7 @@
           </div>
           <div class="text-gray-300 flex flex-row items-start mt-3">
             <mat-icon class="text-gray-300">credit_card</mat-icon>
-            <span class="ml-1 text-lg font-bold">{{ order.totalPrice + ' ' + getCurrencyName(order.orderCurrencyType) }}</span>
+            <span class="ml-1 text-lg font-bold">{{ order.totalPrice | number: '1.0-5'}}{{' ' + getCurrencyName(order.orderCurrencyType) }}</span>
           </div>
         </div>
       </div>

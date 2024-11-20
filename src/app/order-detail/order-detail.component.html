@@ -66,7 +66,7 @@
             </div>
             <br />
             <div class="text-gray-300">Weight: {{ item?.weight }} kg</div>
-            <div class="text-gray-300">Price: {{ item?.price + ' ' + currencyService.getCurrencyTypesById(order?.orderCurrencyType) }}</div>
+            <div class="text-gray-300">Price: {{ item?.price | number:'1.2-3' + ' ' + ' ' + currencyService.getCurrencyTypesById(order?.orderCurrencyType) }}</div>
           </div>
         </div>
       </div>
