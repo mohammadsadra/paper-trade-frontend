@@ -26,6 +26,7 @@ export class NewOrderComponent implements OnInit {
   filteredClients: OrderClient[] = []; // Holds the filtered clients based on search
   isLoading = false;
   noResults = false;
+  isNewClientOpen = false;
 
   constructor(
     private fb: FormBuilder,
