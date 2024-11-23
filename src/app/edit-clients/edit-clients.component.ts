@@ -120,7 +120,7 @@ export class EditClientsComponent implements OnInit {
   }
 
   /**
-   * Creates a new client and navigates to the Complete Order page upon success.
+   * Creates a new client or Edit a client
    */
   createOrEditClient(): void {
     if (this.clientForm.valid) {
@@ -192,6 +192,9 @@ export class EditClientsComponent implements OnInit {
     }
   }
 
+  /**
+   * Deletes a client
+   */
   deleteClient(){
     Swal.fire({
       title: 'Delete ' + this.selectedClient?.name + ' ' + this.selectedClient?.family,
