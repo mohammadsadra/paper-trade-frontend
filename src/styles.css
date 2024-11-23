@@ -4,3 +4,33 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.error-snackbar {
+  max-width: max-content !important;
+  color: white;
+  --mdc-snackbar-container-color: red !important;
+  border-color: #f5c6cb !important;
+
+  .mat-simple-snackbar-action {
+    color: white !important;
+  }
+}
+.success-snackbar {
+  max-width: max-content !important;
+  color: white;
+  --mdc-snackbar-container-color: green !important;
+  border-color: #f5c6cb !important;
+
+  .mat-simple-snackbar-action {
+    color: white !important;
+  }
+}
+.warning-snackbar {
+  max-width: max-content !important;
+  color: white;
+  --mdc-snackbar-container-color: orange !important;
+  border-color: #f5c6cb !important;
+
+  .mat-simple-snackbar-action {
+    color: white !important;
+  }
+}

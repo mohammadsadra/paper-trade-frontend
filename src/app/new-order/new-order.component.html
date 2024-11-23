@@ -18,7 +18,7 @@
   <!-- Open New Client Creation Form -->
   <button *ngIf="!isNewClientOpen"
           (click)="isNewClientOpen = !isNewClientOpen"
-    class="w-full flex items-center justify-center px-4 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 mb-3"
+          class="w-full flex mb-3 items-center justify-center px-4 py-2 bg-blue-800 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600"
   >
     <mat-icon>person_add</mat-icon>
     <span class="ml-2">Create Client</span>
@@ -87,7 +87,7 @@
           <li
             *ngFor="let client of filteredClients"
             (click)="selectClient(client)"
-            class="p-3 bg-gray-700 text-white rounded-lg mb-2 cursor-pointer hover:bg-gray-600"
+            class="p-3 bg-gray-700 text-white rounded-lg mb-2 cursor-pointer hover:bg-gray-600 first-letter:uppercase"
           >
             {{ client.name }} {{ client.family }}
           </li>

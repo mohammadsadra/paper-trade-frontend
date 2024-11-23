@@ -1,30 +1,37 @@
 <div class="min-h-screen bg-gray-900 p-6">
+
   <!-- Title and Back Button -->
   <div class="flex items-center justify-between mb-10">
-    <button
-      (click)="router.navigate(['/'])"
-      class="flex items-center justify-center px-4 py-2 bg-indigo-500 text-white font-semibold rounded-lg shadow-md"
-    >
-      <mat-icon>arrow_back</mat-icon>
-      <span class="ml-2 hidden sm:inline">Back to Dashboard</span>
-    </button>
-    <h1 class="text-3xl font-extrabold text-indigo-400 text-center flex-1">Manage Clients</h1>
-    <div class="w-12"></div>
+    <div class="flex-1">
+      <button
+        (click)="router.navigate(['/'])"
+        class="flex items-center justify-center px-4 py-2 bg-indigo-500 text-white font-semibold rounded-lg shadow-md "
+      >
+        <mat-icon>arrow_back</mat-icon>
+        <span class="ml-2 hidden sm:inline">Back to Dashboard</span>
+      </button>
+    </div>
+
+    <h1 class="text-3xl font-extrabold text-indigo-400 text-center flex-1">Clients</h1>
+
+    <div class="flex-1"></div>
   </div>
 
   <!-- Open New Client Creation Form -->
-  <button *ngIf="!isNewClientOpen"
-          (click)="toggleClientForm()"
-          class="w-full flex items-center justify-center px-4 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 mb-3"
+  <button (click)="openCreateClient()"
+          class="w-full flex mb-3 items-center justify-center px-4 py-2 bg-blue-800 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600"
   >
     <mat-icon>person_add</mat-icon>
-    <span class="ml-2">Create Client</span>
+    <span class="ml-2">Create New Client</span>
   </button>
 
-  <!-- New Client Creation Form -->
-  <div *ngIf="isNewClientOpen" class="bg-gray-800 p-6 rounded-lg shadow-md mb-4">
-    <h2 class="text-xl text-gray-300 mb-4">Create New Client</h2>
-    <form [formGroup]="clientForm" (ngSubmit)="createClient()">
+  <!-- New & Edit Client Creation Form -->
+  <div *ngIf="isFormOpen" class="bg-gray-800 p-6 rounded-lg shadow-md mb-4">
+    <div class="flex flex-row justify-between items-start">
+      <h2 class="text-xl text-gray-300 font-bold mb-4">{{ isNewPerson ? 'Create New Client' : 'Edit Client'}}</h2>
+      <mat-icon (click)="isFormOpen = false" class="text-white text-xl cursor-pointer">close</mat-icon>
+    </div>
+    <form [formGroup]="clientForm">
       <div class="mb-4">
         <label for="newClientName" class="block text-gray-300 mb-2">First Name</label>
         <input
@@ -47,58 +54,56 @@
           required
         />
       </div>
-      <button
-        type="submit"
-        class="w-full flex items-center justify-center px-4 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600"
+      <!-- Add more fields as necessary -->
+
+      <button *ngIf="!isNewPerson" (click)="deleteClient()"
+        class="w-full flex items-center justify-center px-4 py-2 bg-red-600 text-white font-semibold rounded-lg shadow-md hover:bg-red-500 mb-2"
       >
-        <mat-icon>person_add</mat-icon>
-        <span class="ml-2">Create Client</span>
+        <mat-icon>delete</mat-icon>
+        <span class="ml-2">Delete Client</span>
+      </button>
+      <button
+        (click)="createOrEditClient()"
+        class="w-full flex items-center justify-center px-4 py-2 bg-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-500"
+      >
+        <mat-icon>{{isNewPerson ? 'person_add' : 'save'}}</mat-icon>
+        <span class="ml-2">{{isNewPerson ? 'Create Client & Proceed' : 'Save Changes'}}</span>
       </button>
     </form>
   </div>
 
-  <!-- Client List -->
-  <div class="bg-gray-800 p-6 rounded-lg shadow-md">
-    <h2 class="text-white text-xl font-bold mb-4">Clients</h2>
-    <ul>
-      <li
-        *ngFor="let client of filteredClients"
-        class="p-3 bg-gray-700 text-white rounded-lg mb-2 flex justify-between items-center"
-      >
-        <div (click)="editClient(client)" class="cursor-pointer">
-          <ng-container *ngIf="editingClient?.id === client.id; else viewMode">
-            <input
-              [(ngModel)]="editingClient ? editingClient.name : client.name"
-              type="text"
-              class="w-1/3 p-2 rounded-lg bg-gray-600 text-white focus:ring-2 focus:ring-indigo-500"
-            />
-            <input
-              [(ngModel)]="editingClient.family ? editingClient.family : client.family"
-              type="text"
-              class="w-1/3 p-2 rounded-lg bg-gray-600 text-white focus:ring-2 focus:ring-indigo-500"
-            />
-          </ng-container>
-          <ng-template #viewMode>
-            <span>{{ client.name }} {{ client.family }}</span>
-          </ng-template>
+  <!-- Client Search Section -->
+  <div class="bg-gray-800 p-6 rounded-lg shadow-md mt-3">
+    <form [formGroup]="clientForm">
+      <div class="mb-4">
+        <h2 class="text-white text-xl font-bold mb-2">Clients</h2>
+        <input
+          *ngIf="!noResults"
+          id="searchClient"
+          type="text"
+          formControlName="searchClient"
+          placeholder="Enter client name..."
+          class="w-full p-3 rounded-lg bg-gray-700 text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        />
+        <div *ngIf="isLoading" class="mt-2 text-gray-400">Loading clients...</div>
+        <div *ngIf="noResults" class="mt-2 text-red-500">
+          No clients found. Please create a new client.
         </div>
-        <div>
-          <button
-            *ngIf="editingClient?.id === client.id"
-            (click)="saveClient(client)"
-            class="px-4 py-2 bg-green-500 text-white rounded-lg shadow-md hover:bg-green-600"
-          >
-            Save
-          </button>
-          <button
-            (click)="removeClient(client)"
-            class="px-4 py-2 bg-red-500 text-white rounded-lg shadow-md hover:bg-red-600 ml-2"
-          >
-            Remove
-          </button>
-        </div>
-      </li>
+      </div>
 
-    </ul>
+      <!-- Display filtered clients -->
+      <div *ngIf="!noResults" class="mb-4 max-h-[500px] overflow-y-auto">
+        <ul>
+          <li
+            *ngFor="let client of filteredClients"
+            (click)="selectClient(client)"
+            class="p-3 bg-gray-700 text-white rounded-lg mb-2 cursor-pointer hover:bg-gray-600 first-letter:uppercase"
+          >
+            {{ client.name }} {{ client.family }}
+          </li>
+        </ul>
+      </div>
+    </form>
   </div>
+
 </div>
