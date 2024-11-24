@@ -28,6 +28,10 @@ export class OrderService {
     return this.selectedOrderSubject.asObservable();
   }
 
+  get currentSelectedOrder(): Order | null {
+    return this.selectedOrderSubject.value;
+  }
+
   setSelectedClient(client: OrderClient): void {
     this.selectedClient.next(client);
   }

@@ -34,13 +34,13 @@ export class OrderDetailComponent implements OnInit {
   currencyTypes = Object.keys(CurrencyType).filter(key => isNaN(Number(key))); // Get enum keys
   ngOnInit() {
     this.orderService.selectedOrder$.subscribe((selectedOrder) => {
+      this.orderId = this.route.snapshot.paramMap.get('id')!;
       if (selectedOrder) {
         this.order = selectedOrder;
       } else {
-        this.orderId = this.route.snapshot.paramMap.get('id')!;
         this.orderService.getOrderById(this.orderId).subscribe(order => {
           if (!order){
-            this.router.navigate(['/']);
+            this.router.navigate(['/']).then();
           } else {
             this.orderService.setSelectedOrder(order);
           }
@@ -53,6 +53,10 @@ export class OrderDetailComponent implements OnInit {
 
 
   goBack() {
-    this.router.navigate(['/']);
+    this.router.navigate(['/']).then();
+  }
+  editOrder() {
+    console.log(this.orderId)
+    this.router.navigate(['/edit-order', this.orderId]).then();
   }
 }

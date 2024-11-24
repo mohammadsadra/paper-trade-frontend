@@ -9,6 +9,7 @@ import {OrderDetailComponent} from './order-detail/order-detail.component';
 import {NewOrderComponent} from './new-order/new-order.component';
 import {CompleteOrderComponent} from './complete-order/complete-order.component';
 import {EditClientsComponent} from './edit-clients/edit-clients.component';
+import {EditOrderComponent} from './edit-order/edit-order.component';
 
 const authGuard: CanActivateFn = () => {
   const authService = inject(AuthService);
@@ -30,5 +31,7 @@ export const routes: Routes = [
   { path: 'new-order', component: NewOrderComponent },
   { path: 'complete-order/:id', component: CompleteOrderComponent },
   { path: 'edit-clients', component: EditClientsComponent },
+  { path: 'edit-order/:id', component: EditOrderComponent },
+  { path: 'edit-order', component: EditOrderComponent },
   { path: 'login', component: LoginComponent }
 ];
