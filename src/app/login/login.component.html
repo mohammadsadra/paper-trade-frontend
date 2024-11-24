@@ -1,6 +1,9 @@
 <div class="min-h-screen flex items-center justify-center bg-gray-900 px-4 sm:px-6 lg:px-8">
-  <div class="max-w-md w-full space-y-8 p-6 sm:p-8 bg-gray-800 shadow-md rounded-lg">
-    <h2 class="text-center text-2xl font-bold text-indigo-400">Sign in to your account</h2>
+  <div class=" max-w-md w-full space-y-8 p-6 sm:p-8 bg-gray-800 shadow-md rounded-lg">
+    <div class="flex justify-center items-center w-full">
+      <img class="w-20" src="assets/images/logo.PNG" alt="logo">
+    </div>
+<!--    <h2 class="text-center text-2xl font-bold text-indigo-400">Sign in to your account</h2>-->
     <form [formGroup]="loginForm" (ngSubmit)="login()" class="space-y-6">
       <div>
         <label for="username" class="block text-sm font-medium text-gray-400">Username</label>
